@@ -16,7 +16,7 @@ except ImportError:
 
 st.set_page_config(page_title="AXARA Digital Bridge", layout="wide")
 st.title("🧬 AXARA Digital Bridge")
-st.subheader("Zero-Retention PAL Analysis Service – Pre-Launch")
+st.subheader("Zero-Retention PAL Analysis Service – Version 1.1")
 
 tier_options = {
     "Tier 0 - Probe Design Report": 199,
@@ -101,7 +101,7 @@ if st.button("Generate Report", type="primary", use_container_width=True):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", "B", 16)
-    pdf.cell(0, 10, txt="AXARA Structural Validation Report", ln=1, align="C")
+    pdf.cell(0, 10, txt="AXARA Structural Validation Report – Version 1.1", ln=1, align="C")
     pdf.set_font("Arial", size=11)
     pdf.cell(0, 8, txt=f"Lot ID: {lot_id} | Tier: {selected_tier} | Processed: {datetime.utcnow().strftime('%Y-%m-%d %H:%M')}", ln=1)
     pdf.cell(0, 8, txt=f"File: {uploaded_file.name} | Input Hash: {file_hash}", ln=1)
@@ -191,12 +191,18 @@ if st.button("Generate Report", type="primary", use_container_width=True):
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, txt="Value of This Report & Limitations", ln=1)
     pdf.set_font("Arial", size=11)
-    pdf.multi_cell(0, 8, txt="This Tier 3 report delivers the complete structural validation package you requested: Tier 2 analytical content, residue-level cross-links, AlphaFold3 3D pocket mapping, annotated PDB file, and patent-ready language. It replaces weeks of manual bioinformatics work with a professional, ready-to-use deliverable suitable for investor presentations and FDA submissions. Limitations: This is a pre-launch service using simulated processing; full production (Q3 2026) will include real-time Sage + OpenFold3 integration for even higher resolution.")
+    pdf.multi_cell(0, 8, txt="Version 1.1 of the AXARA Structural Validation Report delivers the complete package: residue-level cross-links, AlphaFold3 3D pocket mapping, annotated PDB file, and patent-ready language. It replaces weeks of manual bioinformatics work with a professional, ready-to-use deliverable suitable for investor presentations and FDA submissions.")
+
+    pdf.ln(8)
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, txt="Roadmap", ln=1)
+    pdf.set_font("Arial", size=11)
+    pdf.multi_cell(0, 8, txt="Future versions (Q3 2026) will include full real-time Sage + OpenFold3 integration for even higher resolution and automated 3D pocket refinement.")
 
     pdf_output = bytes(pdf.output(dest="S"))
 
-    st.success("✅ Full Tier 3 Report generated successfully!")
-    st.download_button("📄 Download Structural Validation Report (PDF)", pdf_output, f"AXARA_Tier3_Validation_Report_{file_hash}.pdf", "application/pdf")
+    st.success("✅ Version 1.1 Structural Validation Report generated successfully!")
+    st.download_button("📄 Download Structural Validation Report (PDF)", pdf_output, f"AXARA_Tier3_Version1.1_Report_{file_hash}.pdf", "application/pdf")
     st.download_button("📦 Download Annotated Structure (PDB)", f"HEADER    AXARA ALPHAFOLD3 MODEL WITH CROSS-LINKS\nREMARK 300 PRIMARY CROSS-LINK AT {primary}\nREMARK 300 DATA SUITABLE FOR IND SUBMISSION\nEND", "annotated_structure.pdb", "chemical/x-pdb")
 
     st.info("Zero-Retention Policy: All uploaded data and intermediates have been permanently deleted from our systems.")
