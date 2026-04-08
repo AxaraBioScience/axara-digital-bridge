@@ -122,7 +122,7 @@ if st.button("Generate Report", type="primary", use_container_width=True):
         pdf.cell(col_widths[4], 8, "High" if scores[i] > 80 else "Medium", border=1)
         pdf.ln()
 
-    # Visualization - STRONG spacing fix
+    # VISUALIZATION - AGGRESSIVE SPACING FIX
     pdf.add_page()
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, txt="Visualization", ln=1)
@@ -130,27 +130,31 @@ if st.button("Generate Report", type="primary", use_container_width=True):
 
     if MATPLOTLIB_AVAILABLE:
         # Figure 1
+        pdf.set_font("Arial", "B", 12)
+        pdf.cell(0, 10, txt="Figure 1: Annotated Binding Pocket", ln=1)
         fig1, ax1 = plt.subplots(figsize=(5.5, 3.8))
         ax1.bar(residues, scores, color=["gray", "red", "orange"])
-        ax1.set_title(f"Figure 1: Annotated Binding Pocket – Primary site {primary}")
+        ax1.set_title(f"Primary site: {primary}")
         ax1.set_ylabel("Cross-link Confidence (%)")
         buf1 = io.BytesIO()
         fig1.savefig(buf1, format="png", bbox_inches="tight", pad_inches=0.2)
         buf1.seek(0)
-        pdf.image(buf1, x=25, y=pdf.get_y(), w=120)
-        pdf.ln(170)   # ← Very generous spacing
+        pdf.image(buf1, x=25, y=pdf.get_y(), w=110)
+        pdf.ln(190)   # ← Very large spacing
 
         # Figure 2
+        pdf.set_font("Arial", "B", 12)
+        pdf.cell(0, 10, txt="Figure 2: Representative MS/MS Spectrum", ln=1)
         fig2, ax2 = plt.subplots(figsize=(5.8, 4.0))
         if real_mz and real_intensity and len(real_mz) > 10:
             ax2.plot(real_mz[:400], real_intensity[:400], "b-", linewidth=1.2, label="Extracted MS/MS spectrum")
-            ax2.set_title("Figure 2: Representative MS/MS Spectrum (real data from your file)")
+            ax2.set_title("Real data from your uploaded file")
             note = "Real spectrum extracted directly from uploaded mzML file"
         else:
             x = list(range(200, 1200, 40))
             y = [800 + (i % 300) + (i % 11)*30 for i in x]
             ax2.plot(x, y, "b-", linewidth=1.5, label=f"{primary} fragment ion")
-            ax2.set_title("Figure 2: Representative MS/MS Spectrum (mock fallback)")
+            ax2.set_title("Mock fallback spectrum")
             note = "Mock spectrum (file too minimal for full parsing)"
         ax2.set_xlabel("m/z")
         ax2.set_ylabel("Intensity")
@@ -159,12 +163,12 @@ if st.button("Generate Report", type="primary", use_container_width=True):
         buf2 = io.BytesIO()
         fig2.savefig(buf2, format="png", bbox_inches="tight", pad_inches=0.3)
         buf2.seek(0)
-        pdf.image(buf2, x=25, y=pdf.get_y(), w=120)
-        pdf.ln(170)   # ← Very generous spacing
+        pdf.image(buf2, x=25, y=pdf.get_y(), w=110)
+        pdf.ln(190)   # ← Very large spacing
         pdf.set_font("Arial", size=9)
         pdf.multi_cell(0, 6, txt=note)
 
-    # Clean final pages
+    # Final clean pages
     pdf.add_page()
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, txt="Interpretation & Recommendations", ln=1)
