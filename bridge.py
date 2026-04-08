@@ -15,8 +15,8 @@ except ImportError:
     MATPLOTLIB_AVAILABLE = False
 
 st.set_page_config(page_title="AXARA Digital Bridge", layout="wide")
-st.title("🧬 AXARA Digital Bridge")
-st.subheader("Zero-Retention PAL Analysis Service – Version 1.1")
+st.title("AXARA Digital Bridge")
+st.subheader("Zero-Retention PAL Analysis Service - Version 1.1")
 
 tier_options = {
     "Tier 0 - Probe Design Report": 199,
@@ -101,7 +101,7 @@ if st.button("Generate Report", type="primary", use_container_width=True):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", "B", 16)
-    pdf.cell(0, 10, txt="AXARA Structural Validation Report – Version 1.1", ln=1, align="C")
+    pdf.cell(0, 10, txt="AXARA Structural Validation Report - Version 1.1", ln=1, align="C")
     pdf.set_font("Arial", size=11)
     pdf.cell(0, 8, txt=f"Lot ID: {lot_id} | Tier: {selected_tier} | Processed: {datetime.utcnow().strftime('%Y-%m-%d %H:%M')}", ln=1)
     pdf.cell(0, 8, txt=f"File: {uploaded_file.name} | Input Hash: {file_hash}", ln=1)
@@ -201,8 +201,8 @@ if st.button("Generate Report", type="primary", use_container_width=True):
 
     pdf_output = bytes(pdf.output(dest="S"))
 
-    st.success("✅ Version 1.1 Structural Validation Report generated successfully!")
-    st.download_button("📄 Download Structural Validation Report (PDF)", pdf_output, f"AXARA_Tier3_Version1.1_Report_{file_hash}.pdf", "application/pdf")
-    st.download_button("📦 Download Annotated Structure (PDB)", f"HEADER    AXARA ALPHAFOLD3 MODEL WITH CROSS-LINKS\nREMARK 300 PRIMARY CROSS-LINK AT {primary}\nREMARK 300 DATA SUITABLE FOR IND SUBMISSION\nEND", "annotated_structure.pdb", "chemical/x-pdb")
+    st.success("Version 1.1 Structural Validation Report generated successfully!")
+    st.download_button("Download Structural Validation Report (PDF)", pdf_output, f"AXARA_Tier3_Version1.1_Report_{file_hash}.pdf", "application/pdf")
+    st.download_button("Download Annotated Structure (PDB)", f"HEADER    AXARA ALPHAFOLD3 MODEL WITH CROSS-LINKS\nREMARK 300 PRIMARY CROSS-LINK AT {primary}\nREMARK 300 DATA SUITABLE FOR IND SUBMISSION\nEND", "annotated_structure.pdb", "chemical/x-pdb")
 
     st.info("Zero-Retention Policy: All uploaded data and intermediates have been permanently deleted from our systems.")
