@@ -106,7 +106,6 @@ if st.button("Generate Report", type="primary", use_container_width=True):
     pdf.multi_cell(0, 8, txt="Raw LC-MS/MS data processed with constrained AlphaFold3 folding using experimental cross-link restraints. Sage v0.9 used for peptide identification (FDR < 1.5%).")
     pdf.ln(12)
 
-    # Table
     pdf.set_font("Arial", "B", 12)
     pdf.cell(0, 10, txt="Residue-Level Cross-Links", ln=1)
     pdf.set_font("Arial", size=10)
@@ -123,11 +122,11 @@ if st.button("Generate Report", type="primary", use_container_width=True):
         pdf.cell(col_widths[4], 8, "High" if scores[i] > 80 else "Medium", border=1)
         pdf.ln()
 
-    # Visualization – FIXED OVERLAP
+    # Visualization - STRONG spacing fix
     pdf.add_page()
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, txt="Visualization", ln=1)
-    pdf.ln(10)
+    pdf.ln(15)
 
     if MATPLOTLIB_AVAILABLE:
         # Figure 1
@@ -138,8 +137,8 @@ if st.button("Generate Report", type="primary", use_container_width=True):
         buf1 = io.BytesIO()
         fig1.savefig(buf1, format="png", bbox_inches="tight", pad_inches=0.2)
         buf1.seek(0)
-        pdf.image(buf1, x=25, y=pdf.get_y(), w=125)
-        pdf.ln(140)   # ← Much more space
+        pdf.image(buf1, x=25, y=pdf.get_y(), w=120)
+        pdf.ln(170)   # ← Very generous spacing
 
         # Figure 2
         fig2, ax2 = plt.subplots(figsize=(5.8, 4.0))
@@ -160,12 +159,12 @@ if st.button("Generate Report", type="primary", use_container_width=True):
         buf2 = io.BytesIO()
         fig2.savefig(buf2, format="png", bbox_inches="tight", pad_inches=0.3)
         buf2.seek(0)
-        pdf.image(buf2, x=25, y=pdf.get_y(), w=125)
-        pdf.ln(140)   # ← Much more space
+        pdf.image(buf2, x=25, y=pdf.get_y(), w=120)
+        pdf.ln(170)   # ← Very generous spacing
         pdf.set_font("Arial", size=9)
         pdf.multi_cell(0, 6, txt=note)
 
-    # Remaining sections on clean pages
+    # Clean final pages
     pdf.add_page()
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, txt="Interpretation & Recommendations", ln=1)
