@@ -122,14 +122,14 @@ if st.button("Generate Report", type="primary", use_container_width=True):
         pdf.cell(col_widths[4], 8, "High" if scores[i] > 80 else "Medium", border=1)
         pdf.ln()
 
-    # VISUALIZATION - AGGRESSIVE SPACING FIX
+    # VISUALIZATION PAGE WITH HARD-CODED POSITIONS
     pdf.add_page()
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, txt="Visualization", ln=1)
-    pdf.ln(15)
+    pdf.ln(10)
 
     if MATPLOTLIB_AVAILABLE:
-        # Figure 1
+        # Figure 1 - fixed position
         pdf.set_font("Arial", "B", 12)
         pdf.cell(0, 10, txt="Figure 1: Annotated Binding Pocket", ln=1)
         fig1, ax1 = plt.subplots(figsize=(5.5, 3.8))
@@ -139,12 +139,13 @@ if st.button("Generate Report", type="primary", use_container_width=True):
         buf1 = io.BytesIO()
         fig1.savefig(buf1, format="png", bbox_inches="tight", pad_inches=0.2)
         buf1.seek(0)
-        pdf.image(buf1, x=25, y=pdf.get_y(), w=110)
-        pdf.ln(190)   # ← Very large spacing
+        pdf.image(buf1, x=25, y=50, w=120)   # ← Hard-coded y = 50
 
-        # Figure 2
+        # Figure 2 - hard-coded much lower position
+        pdf.set_y(165)   # ← Hard-coded starting y for second graph
         pdf.set_font("Arial", "B", 12)
         pdf.cell(0, 10, txt="Figure 2: Representative MS/MS Spectrum", ln=1)
+
         fig2, ax2 = plt.subplots(figsize=(5.8, 4.0))
         if real_mz and real_intensity and len(real_mz) > 10:
             ax2.plot(real_mz[:400], real_intensity[:400], "b-", linewidth=1.2, label="Extracted MS/MS spectrum")
@@ -163,12 +164,13 @@ if st.button("Generate Report", type="primary", use_container_width=True):
         buf2 = io.BytesIO()
         fig2.savefig(buf2, format="png", bbox_inches="tight", pad_inches=0.3)
         buf2.seek(0)
-        pdf.image(buf2, x=25, y=pdf.get_y(), w=110)
-        pdf.ln(190)   # ← Very large spacing
+        pdf.image(buf2, x=25, y=185, w=120)   # ← Hard-coded y = 185
+
+        pdf.set_y(340)
         pdf.set_font("Arial", size=9)
         pdf.multi_cell(0, 6, txt=note)
 
-    # Final clean pages
+    # Final pages
     pdf.add_page()
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, txt="Interpretation & Recommendations", ln=1)
