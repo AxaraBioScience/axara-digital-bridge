@@ -66,7 +66,6 @@ if st.button("Generate Report", type="primary", use_container_width=True):
     file_hash = hashlib.sha256(file_bytes).hexdigest()[:8]
     uploaded_file.seek(0)
 
-    # Dynamic residues (still hash-based for now)
     if file_hash[0] in "0123":
         residues = ["Leu-39", "Lys-42", "Val-36"]
         scores = [92, 87, 41]
@@ -124,8 +123,6 @@ if st.button("Generate Report", type="primary", use_container_width=True):
 
     # FIGURE 1 - OWN FULL PAGE
     pdf.add_page()
-    pdf.set_font("Arial", "B", 18)
-    pdf.cell(0, 20, txt="=== DEBUG - THIS IS VERSION 28 ===", ln=1, align="C")
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, txt="Figure 1: Annotated Binding Pocket", ln=1)
     if MATPLOTLIB_AVAILABLE:
@@ -140,8 +137,6 @@ if st.button("Generate Report", type="primary", use_container_width=True):
 
     # FIGURE 2 - OWN FULL PAGE
     pdf.add_page()
-    pdf.set_font("Arial", "B", 18)
-    pdf.cell(0, 20, txt="=== DEBUG - THIS IS VERSION 28 ===", ln=1, align="C")
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, txt="Figure 2: Representative MS/MS Spectrum", ln=1)
     if MATPLOTLIB_AVAILABLE:
