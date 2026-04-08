@@ -121,8 +121,10 @@ if st.button("Generate Report", type="primary", use_container_width=True):
         pdf.cell(col_widths[4], 8, "High" if scores[i] > 80 else "Medium", border=1)
         pdf.ln()
 
-    # === VISUALIZATION - ONE FIGURE PER PAGE (guaranteed no overlap) ===
+    # FIGURE 1 - OWN FULL PAGE
     pdf.add_page()
+    pdf.set_font("Arial", "B", 16)
+    pdf.cell(0, 15, txt="DEBUG - FIGURE 1 PAGE", ln=1, align="C")
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, txt="Figure 1: Annotated Binding Pocket", ln=1)
     if MATPLOTLIB_AVAILABLE:
@@ -133,9 +135,12 @@ if st.button("Generate Report", type="primary", use_container_width=True):
         buf1 = io.BytesIO()
         fig1.savefig(buf1, format="png", bbox_inches="tight", pad_inches=0.2)
         buf1.seek(0)
-        pdf.image(buf1, x=25, y=pdf.get_y(), w=130)
+        pdf.image(buf1, x=25, y=60, w=130)
 
+    # FIGURE 2 - OWN FULL PAGE
     pdf.add_page()
+    pdf.set_font("Arial", "B", 16)
+    pdf.cell(0, 15, txt="DEBUG - FIGURE 2 PAGE", ln=1, align="C")
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, txt="Figure 2: Representative MS/MS Spectrum", ln=1)
     if MATPLOTLIB_AVAILABLE:
@@ -157,7 +162,7 @@ if st.button("Generate Report", type="primary", use_container_width=True):
         buf2 = io.BytesIO()
         fig2.savefig(buf2, format="png", bbox_inches="tight", pad_inches=0.3)
         buf2.seek(0)
-        pdf.image(buf2, x=25, y=pdf.get_y(), w=130)
+        pdf.image(buf2, x=25, y=60, w=130)
         pdf.ln(10)
         pdf.set_font("Arial", size=9)
         pdf.multi_cell(0, 6, txt=note)
